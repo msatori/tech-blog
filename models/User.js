@@ -29,15 +29,6 @@ User.init(
             type: Sequelize.STRING,
             allowNull: false
         },
-        //define email column
-       email: {
-            type: Sequelize.STRING, 
-            allowNull: false,
-            unique: true,
-            validate: {
-                isEmail: true
-            }
-        },
         //define password column
         password: {
             type: Sequelize.STRING,

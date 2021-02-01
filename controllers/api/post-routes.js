@@ -5,11 +5,10 @@ const withAuth = require('../../utils/auth');
 
 
 router.post('/', withAuth, (req, res) => {
-    // expects {title: 'Taskmaster goes public!', post_url: 'https://taskmaster.com/press', user_id: 1}
     Post.create({
-        title: req.body.title,
-        post_url: req.body.post_url,
-        user_id: req.body.user_id
+        title: req.session.title,
+        body: req.session.body,
+        user_id: req.session.user_id
     })
         .then(dbPostData => res.json(dbPostData))
         .catch(err => {
@@ -22,20 +21,16 @@ router.post('/', withAuth, (req, res) => {
 router.put('/:id', withAuth, (req, res) => {
     Post.update(
         {
-            title: req.body.title
-        },
-        {
             where: {
                 id: req.params.id
             }
         }
     )
         .then(dbPostData => {
-            if (!dbPostData) {
-                res.status(404).json({ message: 'No post found with this id' });
-                return;
+            if (dbPostData > 0) {
+             res.status(200).end();
             }
-            res.json(dbPostData);
+            else res.status(400).end();
         })
         .catch(err => {
             console.log(err);
@@ -50,11 +45,10 @@ router.delete('/:id', withAuth, (req, res) => {
         }
     })
         .then(dbPostData => {
-            if (!dbPostData) {
-                res.status(404).json({ message: 'No post found with this id' });
-                return;
-            }
-            res.json(dbPostData);
+            if (dbPostData > 0) {
+                res.status(200).end();
+               }
+               else res.status(400).end();
         })
         .catch(err => {
             console.log(err);
