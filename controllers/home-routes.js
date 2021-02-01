@@ -1,44 +1,51 @@
 const sequelize = require('../config/connection');
 const { Post, User, Comment } = require('../models');
 
-//set up main homepage route
 const router = require('express').Router();
 
+//set up main homepage route
 router.get('/', (req, res) => {
-//no need to use res.sendFile because of handlebars - res.render performs this action. Connect to the page needed to render 
- Post.findAll({
-     attributes: [
-         'id',
-         'post_url',
-         'title',
-         'created_at',
-     ],
-     include: [
-         {
-             model: Comment,
-             attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
-             include: {
-                 model: User,
-                 attributes: ['username']
-             }
-         },
-         {
-             model: User,
-             attributes: ['username']
-         }
-     ]
- })
-    .then(dbPostData => {
-        const posts = dbPostData.map(post => post.get({ plain: true }));
-
-        //pass single object into the homepage template
-        res.render('homepage', {posts});
+    //no need to use res.sendFile because of handlebars - res.render performs this action. Connect to the page needed to render 
+    Post.findAll({
+        include: [
+            User
+        ]
     })
-    .catch(err => {
-        console.log(err);
-        res.status(500).json(err);
-    });
+        .then(dbPostData => {
+            const posts = dbPostData.map(post => post.get({ plain: true }));
+
+            //pass single object into the homepage template
+            res.render('all-posts', { posts });
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json(err);
+        });
 });
+
+//get a sngle post by id
+router.get("/post/:id", (req, res) => {
+    Post.findByPk(req.params.id, {
+        include: [
+            User,
+            {
+                model: Comment,
+            },
+        ],
+    })
+        .then((dbPostData) => {
+            if (dbPostData) {
+                const post = dbPostData.get({ plain: true });
+
+                res.render("single-post", { post });
+            } else {
+                res.status(404).end();
+            }
+        })
+        .catch((err) => {
+            res.status(500).json(err);
+        });
+})
 
 router.get('/login', (req, res) => {
     if (req.session.loggedIn) {
