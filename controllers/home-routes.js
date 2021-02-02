@@ -30,6 +30,7 @@ router.get("/post/:id", (req, res) => {
             User,
             {
                 model: Comment,
+                include: [User]
             },
         ],
     })

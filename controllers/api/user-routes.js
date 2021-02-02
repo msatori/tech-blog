@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { User, Post, Vote, Comment } = require('../../models');
+const { User } = require('../../models');
 
 
 //create a user
@@ -21,8 +21,8 @@ router.post('/', (req, res) => {
         .catch(err => {
             console.log(err);
             res.status(500);
-        })
-})
+        });
+});
 
 
 router.post('/login', (req, res) => {
@@ -47,7 +47,7 @@ router.post('/login', (req, res) => {
                 req.session.username = dbUserData.username;
                 req.session.loggedIn = true;
 
-                res.json(dbUserData);
+                res.json({user: dbUserData});
             });
         });
 });

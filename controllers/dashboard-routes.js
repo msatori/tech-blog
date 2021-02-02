@@ -11,18 +11,17 @@ router.get('/', withAuth, (req, res) => {
     where: {
       user_id: req.session.user_id
     },
-   
   })
     .then(dbPostData => {
-      const posts = dbPostData.map(post => post.get({ plain: true }));
+      const posts = dbPostData.map((post) => post.get({ plain: true }))
       res.render('all-posts', { 
-        posts,
-        layout: 'dashboard'
+        layout: 'dashboard',
+        posts
        });
     })
     .catch(err => {
       console.log(err);
-      res.status(500).json(err);
+      res.redirect("login")
     });
 });
 
