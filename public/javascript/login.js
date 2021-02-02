@@ -12,12 +12,11 @@ async function loginFormHandler(event) {
                 password
             }),
             headers: {'Content-Type': 'application/json'}
-        });
-        if (response.ok) {
+        })
+        .then(function() {
             document.location.replace('/dashboard');
-        } else {
-            alert(response.statusText);
-        }
+        })
+        .catch(err => console.log(err));
     }
 };
 
