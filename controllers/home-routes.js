@@ -5,16 +5,15 @@ const router = require('express').Router();
 
 //set up main homepage route
 router.get('/', (req, res) => {
+    console.log('***********************');
     //no need to use res.sendFile because of handlebars - res.render performs this action. Connect to the page needed to render 
     Post.findAll({
-        include: [
-            User
-        ]
+        include: [User]
     })
         .then(dbPostData => {
-            const posts = dbPostData.map(post => post.get({ plain: true }));
+            const posts = dbPostData.map((post) => post.get({ plain: true }));
 
-            //pass single object into the homepage template
+            //pass single object into the homepage template  
             res.render('all-posts', { posts });
         })
         .catch(err => {
@@ -38,7 +37,7 @@ router.get("/post/:id", (req, res) => {
             if (dbPostData) {
                 const post = dbPostData.get({ plain: true });
 
-                res.render("single-post", { post });
+                res.render('single-post', { post });
             } else {
                 res.status(404).end();
             }

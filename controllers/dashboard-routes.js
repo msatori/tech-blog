@@ -1,5 +1,4 @@
 const router = require('express').Router();
-const sequelize = require('../config/connection');
 const { Post, User, Comment } = require('../models');
 const withAuth = require('../utils/auth');
 
@@ -14,14 +13,14 @@ router.get('/', withAuth, (req, res) => {
   })
     .then(dbPostData => {
       const posts = dbPostData.map((post) => post.get({ plain: true }))
-      res.render('all-posts', { 
+      res.render('all-posts-admin', { 
         layout: 'dashboard',
         posts
        });
     })
     .catch(err => {
       console.log(err);
-      res.redirect("login")
+      res.redirect("dashboard")
     });
 });
 

@@ -6,7 +6,7 @@ const newFormHandler = async function(event) {
   
     const token = localStorage.getItem("token");
     await fetch(`/api/post`, {
-      method: "POST",
+      method: 'POST',
       body: JSON.stringify({
         title,
         body
