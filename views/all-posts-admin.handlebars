@@ -1,8 +1,8 @@
 <div class="all-posts-container">
-    {{ #each posts }}
+    {{#each posts}}
     <a class="post-list flex-row justify-center" href="/dashboard/edit/{{id}}"></a>
     <p> {{ title }}</p>
     <p> {{ format_date createdAt }}</p>
 
-    {{ /each }}
+    {{/each}}
 </div>

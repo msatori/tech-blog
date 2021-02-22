@@ -13,14 +13,14 @@ router.get('/', withAuth, (req, res) => {
   })
     .then(dbPostData => {
       const posts = dbPostData.map((post) => post.get({ plain: true }))
-      res.render('all-posts-admin', { 
-        layout: 'dashboard',
-        posts
+      res.render('dashboard', { 
+        posts,
+        loggedin: true
        });
     })
     .catch(err => {
       console.log(err);
-      res.redirect("dashboard")
+      res.redirect("login")
     });
 });
 

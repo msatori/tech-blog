@@ -1,19 +1,50 @@
-{{> post-info post}}
 
-<form class="comment-form">
-  <div>
-    <textarea name="comment-body"></textarea>
+<div class="single-post-container">
+  <article class="card">
+    <div class="card-header">
+      <h3> {{post.title}}</h3>
+      <p> Posted by {{User.username}}</p>
+    </div>
+    <div class="card-body">
+      {{ post.body }}
+    </div>
+  </article>
+
+  {{#if post.Comments}}
+  <div class="card">
+    <div class="card-header">
+      <h4>Comments</h4>
+    </div>
+    <div class="card-body">
+      {{#each post.Comments}}
+      <p>
+        {{body}}
+      </p>
+    </div>
+    {{/each}}
   </div>
 
-  <div>
-    <button type="submit">add comment</button>
-  </div>
-</form>
-{{/if}}
+  <form id="new-comment-form" class="card">
+    <div class="card-header">
+      <h3>Add New Comment</h3>
+    </div>
 
-{{> comments post.comments}}
+    <div class="card-body">
+      <input type="hidden" name="post-id" value="{{post.id}}" />
 
-{{#if loggedIn}}
+      <label class="form-label" for="comment-body">Comment</label>
+
+      <textarea name="comment-body" class="form-input"></textarea>
+
+      <button type="submit" class="btn">Comments</button>
+    </div>
+  </form>
+
+</div>
+
+
+
+
 <script src="/javascript/comment.js"></script>
 
  

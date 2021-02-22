@@ -15,11 +15,12 @@ async function signupFormHandler(event) {
             headers: { 'Content-Type': 'application/json' }
         })
         .then(function() {
+            console.log('is this happening')
             document.location.replace('/dashboard');
         })
         .catch(err => console.log(err));
     }
-console.log();
+console.log('brrrrrr');
 };
 
-document.querySelector('#signup-form').addEventListener('submit', signupFormHandler);
+document.querySelector('#signup-btn').addEventListener('submit', signupFormHandler);

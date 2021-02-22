@@ -15,13 +15,9 @@ router.post('/', (req, res) => {
                 req.session.loggedIn = true;
 
                 //log data
-                res.json(dbUserData);
+                //res.json(dbUserData);
             });
         })
-        .catch(err => {
-            console.log(err);
-            res.status(500);
-        });
 });
 
 
@@ -34,13 +30,15 @@ router.post('/login', (req, res) => {
     })
         .then(dbUserData => {
             if (!dbUserData) {
-                res.status(500).json({ message: 'No user found!' })
+                res.status(400).json({ message: 'No user found!' });
+                return;
             }
 
             const validatePassword = dbUserData.checkPassword(req.body.password);
 
             if (!validatePassword) {
-                res.status(400).json({ message: 'Please enter a valid password.' })
+                res.status(400).json({ message: 'Please enter a valid password.' });
+                return;
             }
             req.session.save(() => {
                 req.session.user_id = dbUserData.id;
