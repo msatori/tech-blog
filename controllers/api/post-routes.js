@@ -5,12 +5,13 @@ const withAuth = require('../../utils/auth');
 
 
 router.post('/', withAuth, (req, res) => {
-    Post.create({
-        title: req.session.title,
-        body: req.session.body,
-        user_id: req.session.user_id
-    })
-        .then(dbPostData => res.json(dbPostData))
+    const body = req.body;
+    console.log(req.session.userId);
+    Post.create({ ...body, userId: req.session.userId })
+      .then(newPost => {
+        res.json(newPost);
+      })
+  
         .catch(err => {
             console.log(err);
             res.status(500).json(err);

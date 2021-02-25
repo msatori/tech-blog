@@ -8,19 +8,20 @@ router.get('/', withAuth, (req, res) => {
   console.log('======================');
   Post.findAll({
     where: {
-      user_id: req.session.user_id
-    },
+      userId: req.session.userId
+    }
   })
     .then(dbPostData => {
-      const posts = dbPostData.map((post) => post.get({ plain: true }))
-      res.render('dashboard', { 
-        posts,
-        loggedin: true
-       });
+      const posts = dbPostData.map((post) => post.get({ plain: true }));
+      
+      res.render("all-posts-admin", {
+        layout: "dashboard",
+        posts
+      });
     })
     .catch(err => {
       console.log(err);
-      res.redirect("login")
+      res.redirect("login");
     });
 });
 

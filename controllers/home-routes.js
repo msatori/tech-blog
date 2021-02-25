@@ -9,16 +9,15 @@ router.get('/', (req, res) => {
     Post.findAll({
         include: [User]
     })
-        .then(dbPostData => {
-            const posts = dbPostData.map((post) => post.get({ plain: true }));
+    .then((dbPostData) => {
+      const posts = dbPostData.map((post) => post.get({ plain: true }));
 
-            //pass single object into the homepage template  
-            res.render('all-posts', { posts });
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json(err);
-        });
+      res.render("all-posts", { posts });
+    })
+    .catch((err) => {
+      res.status(500).json(err);
+    });
+
 });
 
 //get a sngle post by id

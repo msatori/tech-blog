@@ -15,9 +15,13 @@ router.post('/', (req, res) => {
                 req.session.loggedIn = true;
 
                 //log data
-                //res.json(dbUserData);
+                res.json(dbUserData);
             });
         })
+         .catch(err => {
+            console.log(err);
+            res.status(500).json(err);
+          });
 });
 
 
@@ -41,7 +45,7 @@ router.post('/login', (req, res) => {
                 return;
             }
             req.session.save(() => {
-                req.session.user_id = dbUserData.id;
+                req.session.userId = dbUserData.id;
                 req.session.username = dbUserData.username;
                 req.session.loggedIn = true;
 
